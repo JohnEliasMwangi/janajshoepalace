@@ -4,6 +4,7 @@ import { createReadStream } from "node:fs"
 import { extname, join, normalize } from "node:path"
 import { fileURLToPath } from "node:url"
 import pg from "pg"
+import { list, put } from "@vercel/blob"
 
 const { Pool } = pg
 const root = fileURLToPath(new URL(".", import.meta.url))
@@ -63,6 +64,22 @@ const server = createServer(async (req, res) => {
       const result = await pool.query("INSERT INTO product_reviews (product_id, customer_name, rating, title, body, status) SELECT id, $2, $3, $4, $5, 'pending' FROM products WHERE name = $1 RETURNING id, status", [input.productName, input.customerName.trim().slice(0, 80), input.rating, String(input.title || '').slice(0, 120), input.body.trim().slice(0, 2000)])
       if (!result.rows[0]) return sendJson(res, 404, { error: "Product is not in the catalog." })
       return sendJson(res, 201, { review: result.rows[0] })
+    }
+    if (req.method === "POST" && req.url === "/api/shop-photos") {
+      if (!process.env.ADMIN_API_KEY || req.headers.authorization !== `Bearer ${process.env.ADMIN_API_KEY}`) return sendJson(res, 401, { error: "Shop staff authentication required." })
+      const form = await new Request("http://shop-upload.local", { method: "POST", headers: req.headers, body: req, duplex: "half" }).formData()
+      const file = form.get("photo")
+      if (!(file instanceof File)) return sendJson(res, 400, { error: "Choose a photo to upload." })
+      if (!file.type.startsWith("image/")) return sendJson(res, 415, { error: "Only image files are accepted." })
+      if (file.size > 10 * 1024 * 1024) return sendJson(res, 413, { error: "Photos must be 10 MB or smaller." })
+      const originalName = file.name.replace(/[^a-zA-Z0-9._-]/g, "-").slice(-120) || "shop-photo.jpg"
+      const blob = await put(`shop-photos/${Date.now()}-${originalName}`, Buffer.from(await file.arrayBuffer()), { access: "public", contentType: file.type, addRandomSuffix: true })
+      return sendJson(res, 201, { photo: { url: blob.url, pathname: blob.pathname, name: file.name, size: file.size, contentType: file.type } })
+    }
+    if (req.method === "GET" && req.url === "/api/shop-photos") {
+      if (!process.env.ADMIN_API_KEY || req.headers.authorization !== `Bearer ${process.env.ADMIN_API_KEY}`) return sendJson(res, 401, { error: "Shop staff authentication required." })
+      const { blobs } = await list({ prefix: "shop-photos/", mode: "folded" })
+      return sendJson(res, 200, { photos: blobs.map(({ url, pathname, size, uploadedAt, contentType }) => ({ url, pathname, size, uploadedAt, contentType })) })
     }
     if (req.method === "GET" && req.url === "/api/admin/summary") {
       if (req.headers.authorization !== `Bearer ${process.env.ADMIN_API_KEY}` || !process.env.ADMIN_API_KEY) return sendJson(res, 401, { error: "Admin authentication required." })

@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Shop photo studio | Jonaj Shoe Palace</title>
+  <link rel="stylesheet" href="brand.css">
+</head>
+<body>
+  <main class="upload-shell">
+    <a class="text-link" href="index.html">← Back to store</a>
+    <section class="upload-hero">
+      <p class="eyebrow">Shop photo studio</p>
+      <h1>Turn today&apos;s best fits into tomorrow&apos;s storefront.</h1>
+      <p>Upload the photos taken in the shop to Vercel Blob. Files are validated, stored with a unique name, and returned as public image URLs ready for the catalog or social content.</p>
+    </section>
+    <section class="upload-card" aria-labelledby="upload-title">
+      <div class="section-heading"><div><p class="eyebrow">Staff only</p><h2 id="upload-title">Add a shop photo</h2></div><span class="pill">JPG, PNG, WEBP · 10 MB max</span></div>
+      <form data-upload-form>
+        <label class="upload-drop"><span class="upload-icon">+</span><strong>Choose a photo</strong><span>or drag and drop it here</span><input type="file" name="photo" accept="image/jpeg,image/png,image/webp,image/avif" required></label>
+        <label>Staff access key<input name="apiKey" type="password" autocomplete="off" required placeholder="Enter the shop access key"></label>
+        <button class="button-primary" type="submit">Upload photo</button>
+        <p data-upload-status role="status" aria-live="polite"></p>
+      </form>
+    </section>
+    <section class="photo-library" aria-labelledby="library-title">
+      <div class="section-heading"><div><p class="eyebrow">Recently uploaded</p><h2 id="library-title">Photo library</h2></div><button class="button-dark" type="button" data-refresh>Refresh</button></div>
+      <div class="photo-grid" data-photo-grid><p class="empty-library">Enter your access key to load photos.</p></div>
+    </section>
+  </main>
+  <script src="shop-upload.js"></script>
+</body>
+</html>
