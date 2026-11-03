@@ -1,0 +1,85 @@
+:root {
+  --font-display: "ADLaM Display", "Amasis MT Pro Medium", Georgia, serif;
+  --font-body: "Congenial", "Amasis MT Pro Medium", Arial, sans-serif;
+  --font-ui: "Amasis MT Pro Medium", "Congenial", Arial, sans-serif;
+  --peach: #FFDAB9;
+  --sage: #93917C;
+  --ink: #0D031B;
+  --stone: #E5E4E2;
+}
+
+body {
+  background: var(--stone);
+  color: var(--ink);
+  font-family: var(--font-body);
+}
+
+h1,
+h2,
+h3,
+h4,
+.logo-name {
+  font-family: var(--font-display);
+}
+
+button,
+input,
+select,
+textarea,
+.main-nav a,
+.header-actions a,
+.eyebrow,
+.pill {
+  font-family: var(--font-ui);
+}
+
+.site-header,
+footer,
+.announcement {
+  background: var(--stone);
+  color: var(--ink);
+}
+
+.logo {
+  align-items: center;
+  color: var(--ink);
+  display: inline-flex;
+  gap: 0.6rem;
+  letter-spacing: 0;
+  min-width: max-content;
+  text-decoration: none;
+}
+
+.logo-mark {
+  align-items: center;
+  background: var(--peach);
+  border-radius: 999px 999px 999px 0.4rem;
+  display: inline-flex;
+  height: 2.15rem;
+  justify-content: center;
+  transform: rotate(-12deg);
+  width: 2.15rem;
+}
+
+.logo-mark svg { transform: rotate(12deg); }
+.logo-name { font-size: 0.9rem; font-weight: 700; letter-spacing: -0.03em; white-space: nowrap; }
+.logo-mark path { fill: var(--ink); }
+
+.main-nav a,
+.header-actions a,
+footer a { color: var(--ink); }
+
+.main-nav a.current::after { background: var(--sage); }
+.button-primary,
+.add-button,
+.checkout-submit { background: var(--ink); color: var(--stone); }
+.button-primary:hover,
+.add-button:hover,
+.checkout-submit:hover { background: var(--sage); color: var(--ink); }
+.pill,
+.eyebrow { color: var(--sage); }
+
+@media (max-width: 640px) {
+  .logo-name { font-size: 0.78rem; }
+  .logo-mark { height: 1.9rem; width: 1.9rem; }
+}
