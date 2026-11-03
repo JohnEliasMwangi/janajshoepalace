@@ -2,7 +2,12 @@
   "name": "janaj-shoe-palace",
   "private": true,
   "version": "1.0.0",
+  "type": "module",
   "scripts": {
-    "dev": "python3 -m http.server 3000"
+    "dev": "node server.js",
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "pg": "^8.13.1"
   }
 }
