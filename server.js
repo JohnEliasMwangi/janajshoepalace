@@ -1,6 +1,6 @@
 import { createServer } from "node:http"
 import { readFile } from "node:fs/promises"
-import { createReadStream } from "node:fs"
+import { readFileSync, createReadStream } from "node:fs"
 import { extname, join, normalize } from "node:path"
 import { fileURLToPath } from "node:url"
 import pg from "pg"
@@ -8,7 +8,22 @@ import pg from "pg"
 const { Pool } = pg
 const root = fileURLToPath(new URL(".", import.meta.url))
 const port = Number(process.env.PORT || 3000)
-const pool = process.env.DATABASE_URL ? new Pool({ connectionString: process.env.DATABASE_URL, max: 5 }) : null
+
+function loadProjectEnv() {
+  try {
+    const envText = readFileSync(join(root, ".env.development.local"), "utf8")
+    for (const line of envText.split("\n")) {
+      const match = line.match(/^([A-Z_][A-Z0-9_]*)=(.*)$/)
+      if (match && !process.env[match[1]]) process.env[match[1]] = match[2].replace(/^['\"]|['\"]$/g, "")
+    }
+  } catch {
+    // Production environments provide variables directly.
+  }
+}
+
+loadProjectEnv()
+const databaseUrl = process.env.DATABASE_URL || process.env.POSTGRES_URL || process.env.POSTGRES_PRISMA_URL
+const pool = databaseUrl ? new Pool({ connectionString: databaseUrl, max: 5 }) : null
 const contentTypes = { ".html": "text/html; charset=utf-8", ".css": "text/css; charset=utf-8", ".js": "text/javascript; charset=utf-8", ".json": "application/json; charset=utf-8", ".svg": "image/svg+xml", ".png": "image/png", ".jpg": "image/jpeg", ".webp": "image/webp" }
 
 function sendJson(res, status, body) {
