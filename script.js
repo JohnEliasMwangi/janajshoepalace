@@ -1,197 +1,96 @@
-document.addEventListener('DOMContentLoaded', function() {
-    const featuredProducts = [
-        {
-            image: 'images/shoe1.jpg',
-            title: 'High-Quality Sneaker',
-            price: '$99.99'
-        },
-        {
-            image: 'images/shoe2.jpg',
-            title: 'Comfortable Boots',
-            price: '$129.99'
-        }
-    ];
+document.addEventListener("DOMContentLoaded", () => {
+  const featuredProducts = [
+    { image: "images/shoe1.jpg", title: "High-Quality Sneaker", price: "$99.99" },
+    { image: "images/shoe2.jpg", title: "Comfortable Boots", price: "$129.99" },
+  ]
 
-    let currentProductIndex = 0;
+  let currentProductIndex = 0
+  let cartCount = 0
 
-    function updateFeaturedProduct() {
-        const productContainer = document.querySelector('.product');
-        const image = productContainer.querySelector('img');
-        const title = productContainer.querySelector('h3');
-        const price = productContainer.querySelector('p');
+  const productContainer = document.querySelector(".product")
+  const cartCountElement = document.querySelector("#cart-count")
 
-        image.src = featuredProducts[currentProductIndex].image;
-        title.textContent = featuredProducts[currentProductIndex].title;
-        price.textContent = featuredProducts[currentProductIndex].price;
+  const renderFeaturedProduct = () => {
+    if (!productContainer) return
 
-        currentProductIndex = (currentProductIndex + 1) % featuredProducts.length;
+    const product = featuredProducts[currentProductIndex]
+    const image = productContainer.querySelector("img")
+    const title = productContainer.querySelector("h3")
+    const price = productContainer.querySelector("p")
+
+    if (image) {
+      image.src = product.image
+      image.alt = product.title
+    }
+    if (title) title.textContent = product.title
+    if (price) price.textContent = product.price
+
+    currentProductIndex = (currentProductIndex + 1) % featuredProducts.length
+  }
+
+  if (productContainer && featuredProducts.length > 1) {
+    window.setInterval(renderFeaturedProduct, 5000)
+  }
+
+  const updateCartCount = () => {
+    if (cartCountElement) cartCountElement.textContent = String(cartCount)
+  }
+
+  document.querySelectorAll(".product button, [data-add-to-cart]").forEach((button) => {
+    button.addEventListener("click", () => {
+      cartCount += 1
+      updateCartCount()
+      button.textContent = "Added"
+      window.setTimeout(() => {
+        button.textContent = "Add to bag"
+      }, 1200)
+    })
+  })
+
+  const paymentMethod = document.querySelector("#payment-method")
+  const cardPayment = document.querySelector("#card-payment")
+  const mpesaPayment = document.querySelector("#mpesa-payment")
+
+  const updatePaymentFields = () => {
+    const isMpesa = paymentMethod?.value === "mpesa"
+    if (cardPayment) cardPayment.hidden = Boolean(isMpesa)
+    if (mpesaPayment) mpesaPayment.hidden = !isMpesa
+  }
+
+  paymentMethod?.addEventListener("change", updatePaymentFields)
+  updatePaymentFields()
+
+  const mpesaButton = document.querySelector("#mpesa-button")
+  const phoneInput = document.querySelector("#phone-number")
+  const amountInput = document.querySelector("#amount")
+  const paymentStatus = document.querySelector("[data-payment-status]")
+
+  mpesaButton?.addEventListener("click", async () => {
+    const phoneNumber = phoneInput?.value.trim()
+    const amount = Number(amountInput?.value)
+
+    if (!phoneNumber || !Number.isFinite(amount) || amount <= 0) {
+      if (paymentStatus) paymentStatus.textContent = "Enter a valid phone number and amount."
+      return
     }
 
-    setInterval(updateFeaturedProduct, 5000); // Change every 5 seconds
-});
-
-
-document.addEventListener('DOMContentLoaded', function() {
-    const buyButtons = document.querySelectorAll('.product button');
-
-    buyButtons.forEach(button => {
-        button.addEventListener('click', function() {
-            const product = this.closest('.product');
-            const title = product.querySelector('h3').textContent;
-            alert(`You have added ${title} to your cart!`);
-        });
-    });
-});
-
-
-
-
-document.addEventListener('DOMContentLoaded', function() {
-    const paymentMethod = document.getElementById('payment-method');
-    const cardPayment = document.getElementById('card-payment');
-    const mpesaPayment = document.getElementById('mpesa-payment');
-
-    paymentMethod.addEventListener('change', function() {
-        if (this.value === 'card') {
-            cardPayment.style.display = 'block';
-            mpesaPayment.style.display = 'none';
-        } else if (this.value === 'mpesa') {
-            cardPayment.style.display = 'none';
-            mpesaPayment.style.display = 'block';
-        }
-    });
-});
-
-
-document.getElementById('mpesa-button').addEventListener('click', function() {
-    const phoneNumber = document.getElementById('phone-number').value;
-    const amount = document.getElementById('amount').value;
-
-    if (!phoneNumber || !amount) {
-        alert('Please enter your phone number and amount.');
-        return;
-    }
-
-    // Example API endpoint to handle M-Pesa STK push
-    const apiUrl = 'https://your-backend-api.com/mpesa/stk-push';
-
-    fetch(apiUrl, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-            phoneNumber: phoneNumber,
-            amount: amount
-        })
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.success) {
-            alert('M-Pesa payment initiated successfully. Please complete the payment on your phone.');
-        } else {
-            alert('Failed to initiate M-Pesa payment. Please try again.');
-        }
-    })
-    .catch(error => {
-        console.error('Error:', error);
-        alert('An error occurred. Please try again.');
-    });
-});
-
-const express = require('express');
-const axios = require('axios');
-const app = express();
-const port = 3000;
-
-app.use(express.json());
-
-app.post('/mpesa/stk-push', async (req, res) => {
-    const { phoneNumber, amount } = req.body;
-
-    const mpesaConfig = {
-        BusinessShortCode: 'YOUR_SHORT_CODE',
-        Password: 'YOUR_PASSWORD',
-        Timestamp: 'YOUR_TIMESTAMP',
-        TransactionType: 'CustomerPayBillOnline',
-        Amount: amount,
-        PartyA: phoneNumber,
-        PartyB: 'YOUR_SHORT_CODE',
-        PhoneNumber: phoneNumber,
-        CallURL: 'YOUR_CALL_URL',
-        ResultURL: 'YOUR_RESULT_URL',
-        AccountReference: 'YOUR_ACCOUNT_REFERENCE',
-        Remarks: 'Payment for goods'
-    };
+    mpesaButton.disabled = true
+    if (paymentStatus) paymentStatus.textContent = "Starting payment…"
 
     try {
-        const response = await axios.post('https://sandbox.safaricom.co.ke/mpesa/stkpush/v1/processrequest', mpesaConfig, {
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': 'Bearer YOUR_ACCESS_TOKEN'
-            }
-        });
+      const response = await fetch("/api/orders", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ phoneNumber, amount, paymentMethod: "mpesa" }),
+      })
 
-        if (response.data.ResponseCode === '0') {
-            res.json({ success: true });
-        } else {
-            res.json({ success: false, message: response.data.ResponseDescription });
-        }
+      const result = await response.json()
+      if (!response.ok) throw new Error(result.error || "Payment could not be started.")
+      if (paymentStatus) paymentStatus.textContent = "Order received. We will confirm payment shortly."
     } catch (error) {
-        console.error('Error:', error);
-        res.json({ success: false, message: 'Failed to initiate M-Pesa payment.' });
+      if (paymentStatus) paymentStatus.textContent = error instanceof Error ? error.message : "Payment could not be started."
+    } finally {
+      mpesaButton.disabled = false
     }
-});
-
-app.listen(port, () => {
-    console.log(`Server running at http://localhost:${port}`);
-});
-
-
-const express = require('express');
-const axios = require('axios');
-const app = express();
-const port = 3000;
-
-app.use(express.json());
-
-app.post('/mpesa/stk-push', async (req, res) => {
-    const { phoneNumber, amount } = req.body;
-
-    const mpesaConfig = {
-        BusinessShortCode: 'YOUR_SHORT_CODE',
-        Password: 'YOUR_PASSWORD',
-        Timestamp: 'YOUR_TIMESTAMP',
-        TransactionType: 'CustomerPayBillOnline',
-        Amount: amount,
-        PartyA: phoneNumber,
-        PartyB: 'YOUR_SHORT_CODE',
-        PhoneNumber: phoneNumber,
-        CallURL: 'YOUR_CALL_URL',
-        ResultURL: 'YOUR_RESULT_URL',
-        AccountReference: 'YOUR_ACCOUNT_REFERENCE',
-        Remarks: 'Payment for goods'
-    };
-
-    try {
-        const response = await axios.post('https://sandbox.safaricom.co.ke/mpesa/stkpush/v1/processrequest', mpesaConfig, {
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': 'Bearer YOUR_ACCESS_TOKEN'
-            }
-        });
-
-        if (response.data.ResponseCode === '0') {
-            res.json({ success: true });
-        } else {
-            res.json({ success: false, message: response.data.ResponseDescription });
-        }
-    } catch (error) {
-        console.error('Error:', error);
-        res.json({ success: false, message: 'Failed to initiate M-Pesa payment.' });
-    }
-});
-
-app.listen(port, () => {
-    console.log(`Server running at http://localhost:${port}`);
-});
+  })
+})
