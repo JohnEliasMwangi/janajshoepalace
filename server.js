@@ -28,7 +28,7 @@ async function readBody(req) {
 function validateOrder(input) {
   const required = ["customerName", "customerEmail", "phone", "address"]
   if (required.some((key) => typeof input[key] !== "string" || input[key].trim().length < 2)) return "Please complete your delivery details."
-  if (!/^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(input.customerEmail)) return "Enter a valid email address."
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(input.customerEmail)) return "Enter a valid email address."
   if (!Array.isArray(input.items) || input.items.length === 0) return "Your basket is empty."
   if (!Number.isInteger(input.totalCents) || input.totalCents < 1) return "The order total is invalid."
   return null
