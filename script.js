@@ -36,13 +36,17 @@ document.addEventListener("DOMContentLoaded", () => {
     if (cartCountElement) cartCountElement.textContent = String(cartCount)
   }
 
-  document.querySelectorAll(".product button, [data-add-to-cart]").forEach((button) => {
+  document.querySelectorAll(".product-card .add-button, .product .add-button, [data-add-to-cart]").forEach((button) => {
+    const defaultLabel = button.dataset.label || button.textContent.trim().replace(/\s*\+\s*$/, "") || "Add to bag"
+    button.dataset.label = defaultLabel
     button.addEventListener("click", () => {
       cartCount += 1
       updateCartCount()
-      button.textContent = "Added"
+      button.textContent = "Added to bag"
+      button.setAttribute("aria-label", `${defaultLabel}; item added`)
       window.setTimeout(() => {
-        button.textContent = "Add to bag"
+        button.textContent = `${defaultLabel} +`
+        button.setAttribute("aria-label", defaultLabel)
       }, 1200)
     })
   })

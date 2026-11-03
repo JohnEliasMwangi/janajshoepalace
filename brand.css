@@ -1,4 +1,7 @@
 :root {
+  --font-display: "ADLaM Display", "Amasis MT Pro Medium", Georgia, serif;
+  --font-body: "Congenial", "Amasis MT Pro Medium", Arial, sans-serif;
+  --font-ui: "Amasis MT Pro Medium", "Congenial", Arial, sans-serif;
   --peach: #FFDAB9;
   --sage: #93917C;
   --ink: #0D031B;
@@ -8,6 +11,26 @@
 body {
   background: var(--stone);
   color: var(--ink);
+  font-family: var(--font-body);
+}
+
+h1,
+h2,
+h3,
+h4,
+.logo-name {
+  font-family: var(--font-display);
+}
+
+button,
+input,
+select,
+textarea,
+.main-nav a,
+.header-actions a,
+.eyebrow,
+.pill {
+  font-family: var(--font-ui);
 }
 
 .site-header,
