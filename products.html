@@ -1,70 +1,30 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Products - Jonaj's Shoe Palace</title>
-    <link href="style.css" rel="stylesheet" type="text/css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Shop all | Jonaj&apos;s Shoe Palace</title>
+  <meta name="description" content="Shop considered everyday footwear from Jonaj's Shoe Palace.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,500;1,500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css"><link rel="stylesheet" href="pages.css">
 </head>
 <body>
-    <header>
-        <h1>Welcome to Jonaj's Shoe Palace</h1>
-        <nav>
-            <ul>
-                <li><a href="index.html">Home</a></li>
-                <li><a href="products.html">Products</a></li>
-                <li><a href="about.html">About Us</a></li>
-                <li><a href="contact.html">Contact Us</a></li>
-                <li><a href="checkout.html">Checkout</a></li>
-				<li><a href="faq.html">FAQ</a></li>
-            </ul>
-        </nav>
-    </header>
-    <main>
-        <h2>Our Products</h2>
-        <div class="product">
-            <img src="./images/airforcedark.jpeg" alt="Shoe 1">
-            <h3>High-Quality Sneaker</h3>
-            <p>Ksh. 9000.00</p>
-            <button>Buy Now</button>
-        </div>
-        <div class="product">
-            <img src="./images/Armyjungle.jpeg" alt="Shoe 2">
-            <h3>Comfortable Boots</h3>
-            <p>Ksh. 9499.00</p>
-            <button>Buy Now</button>
-        </div>
-		<div class="product">
-            <img src="./images/clarksformal.jpeg" alt="Shoe 2">
-            <h3>Clarks For Office</h3>
-            <p>Ksh. 9340.00</p>
-            <button>Buy Now</button>
-        </div>
-		<div class="product">
-            <img src="./images/mathagajeshi.jpeg" alt="Shoe 2">
-            <h3>Comfortable Boots For Army</h3>
-            <p>Ksh. 9899.00</p>
-            <button>Buy Now</button>
-        </div>
-		<div class="product">
-            <img src="./images/airmaxgreen.jpeg" alt="Shoe 2">
-            <h3>Comfortable Casual For Picnics</h3>
-            <p>Ksh. 9499.00</p>
-            <button>Buy Now</button>
-        </div>
-		<div class="product">
-            <img src="./images/nakedwolfe.jpeg" alt="Shoe 2">
-            <h3>Naked Wolfe For Picnics</h3>
-            <p>Ksh. 9600.00</p>
-            <button>Buy Now</button>
-        </div>
-        <!-- Add more products here -->
-    </main>
-    <footer>
-        <p>&copy; 2025 Jonaj's Shoe Palace</p>
-    </footer>
-    <script src="product-interactivity.js"></script>
-	<script src="checkout-validation.js"></script>
-	<script src="script.js"></script>
+  <div class="announcement">Complimentary delivery in Nairobi on orders over KSh 10,000 <span>·</span> <a href="faq.html">Read shipping notes</a></div>
+  <header class="site-header"><a class="logo" href="index.html" aria-label="Jonaj's Shoe Palace home">J<span>·</span>SP</a><nav class="main-nav" aria-label="Primary navigation"><a href="index.html">New arrivals</a><a class="current" href="products.html" aria-current="page">Shop all</a><a href="about.html">Our story</a><a href="contact.html">Visit us</a></nav><div class="header-actions"><a href="faq.html">Help</a><a class="cart-trigger" href="checkout.html">Bag <span id="cart-count">0</span></a><button class="mobile-nav-toggle" type="button" aria-label="Toggle menu" aria-expanded="false">Menu</button></div></header>
+  <main>
+    <section class="page-hero"><p class="eyebrow">The full collection</p><h1>Good shoes,<br><em>long horizons.</em></h1><p>From weekday commuters to weekend wanderers, find the pair that keeps up.</p></section>
+    <section class="catalog" aria-labelledby="catalog-title"><div class="section-heading"><div><p class="eyebrow">Curated in Nairobi</p><h2 id="catalog-title">Shop every piece</h2></div><span class="catalog-note">6 pieces · Ready to walk</span></div><div class="product-grid catalog-grid">
+      <article class="product-card" data-product-name="Air Force Dark" data-product-price="9000"><div class="product-image dark"><span class="pill">Everyday</span><img src="images/airforcedark.jpeg" alt="Black Air Force sneakers" loading="lazy"></div><div class="product-meta"><div><h3>Air Force Dark</h3><p>Clean court sneaker · Nike</p></div><strong>KSh 9,000</strong></div><button class="add-button" type="button">Add to bag <span>+</span></button></article>
+      <article class="product-card" data-product-name="Jungle Utility" data-product-price="9499"><div class="product-image olive"><span class="pill">Trail ready</span><img src="images/Armyjungle.jpeg" alt="Olive utility boots" loading="lazy"></div><div class="product-meta"><div><h3>Jungle Utility</h3><p>Weather-ready boot · Jonaj&apos;s</p></div><strong>KSh 9,499</strong></div><button class="add-button" type="button">Add to bag <span>+</span></button></article>
+      <article class="product-card" data-product-name="Clarks Office" data-product-price="9340"><div class="product-image sand"><img src="images/clarksformal.jpeg" alt="Brown formal Clarks shoes" loading="lazy"></div><div class="product-meta"><div><h3>Clarks Office</h3><p>Polished leather classic · Clarks</p></div><strong>KSh 9,340</strong></div><button class="add-button" type="button">Add to bag <span>+</span></button></article>
+      <article class="product-card" data-product-name="Field Service" data-product-price="9899"><div class="product-image warm"><span class="pill">Built tough</span><img src="images/mathagajeshi.jpeg" alt="Durable field boots" loading="lazy"></div><div class="product-meta"><div><h3>Field Service</h3><p>Durable all-day boot · Jonaj&apos;s</p></div><strong>KSh 9,899</strong></div><button class="add-button" type="button">Add to bag <span>+</span></button></article>
+      <article class="product-card" data-product-name="Air Max Green" data-product-price="9499"><div class="product-image green"><span class="pill">New</span><img src="images/airmaxgreen.jpeg" alt="Green Air Max sneakers" loading="lazy"></div><div class="product-meta"><div><h3>Air Max Green</h3><p>Lightweight runner · Nike</p></div><strong>KSh 9,499</strong></div><button class="add-button" type="button">Add to bag <span>+</span></button></article>
+      <article class="product-card" data-product-name="Naked Wolfe" data-product-price="9600"><div class="product-image lilac"><img src="images/nakedwolfe.jpeg" alt="Naked Wolfe fashion sneakers" loading="lazy"></div><div class="product-meta"><div><h3>Naked Wolfe</h3><p>Statement platform · Naked Wolfe</p></div><strong>KSh 9,600</strong></div><button class="add-button" type="button">Add to bag <span>+</span></button></article>
+    </div></section>
+  </main>
+  <footer><div class="footer-brand"><a class="logo" href="index.html">J<span>·</span>SP</a><p>Walk your way.</p></div><div class="footer-links"><a href="about.html">Our story</a><a href="contact.html">Contact</a><a href="faq.html">Shipping &amp; returns</a><a href="https://instagram.com" target="_blank" rel="noreferrer">Instagram ↗</a></div><p class="copyright">© 2025 Jonaj&apos;s Shoe Palace</p></footer>
+  <script src="product-interactivity.js" defer></script>
 </body>
 </html>
